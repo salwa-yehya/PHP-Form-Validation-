@@ -1,3 +1,41 @@
+<?php
+require('config.php')
+session_start();
+
+if(isset($_POST['submit'])){
+  $Email=$_POST['email'];
+  $Password=$_POST['password'];
+
+
+  $sql="SELECT* INTO register WHERE  Email =:email  and Password =:password ";
+   $statement =  $con->prepare($sql); //سرعه بالقراءه و سكيور , بدون تنفيذ
+ //binding : bind Varible with query
+   $statement->bindValue('email' , $Email);
+   $statement->bindValue('password' ,$Password);
+   $statement-> execute();    //بتنفذ كود 
+   
+   $Salwa =  $statement-> fetch(PDO::FETCH_ASSOS);
+
+  if(!empty($_POST['email']) && !empty ($_POST['password'])){
+
+  }
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,17 +51,19 @@
     <h1>login</h1>
     <p>welcome back Login with your credentials</p>
 </div>
-<form action="" method="post">
+<form action="" method="POST">
   <div class="mb-3 ">
-    <label for="exampleInputEmail1" class="form-label">Email</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">abc@gmail.com</div>
+    <label class="form-label">Email</label>
+    <input type="email" class="form-control" name="email">
+    <div >abc@gmail.com</div>
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
+    <label  class="form-label">Password</label>
+    <input type="password" class="form-control" name="password" >
   </div>
-  <button type="button" class="btn btn-primary col-3 mx-auto icon">Login</button><br>
+  <button type="button" class="btn btn-primary col-3 mx-auto icon">Login</button>
+  <input  type="Submit" name="Submit" value="Login" >
+  <br>
   <p class="wel">Don't have an account ?<a href="SignUp.php">Sign Up</a> </p>
 </form>
 </body>
