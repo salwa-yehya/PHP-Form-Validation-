@@ -1,0 +1,24 @@
+*{
+    padding: 0;
+    margin: 30px;
+}
+body{
+    margin: 0 20%;
+}
+.wel {
+    text-align: center;
+}
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+   
+}
+.icon{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.btu{
+   text-decoration: none;
+}
