@@ -12,12 +12,14 @@ require('config.php');
     $Confirm=$_POST['Cpassword'];
     $Datee=$_POST['dateP'];
   
-
+// caluclate Age 
   $Now_Date =  Date_Create("now");
   $input_Date= Date_Create($_POST['dateP']);
   $Date = Date_diff($input_Date ,$Now_Date);
   $Age = $Date->y;
 
+
+// to join all if conditions togather
   $one =0;
   $two =0;
   $three =0;
@@ -27,6 +29,8 @@ require('config.php');
   $seven =0;
   $eight =0;
   $nine = 0;
+
+
   $errorMobile ="";
   $errorName ="";
   $errorName1 ="";
@@ -130,7 +134,7 @@ else{
 }
 
 
-
+// send data after submit
 if ($one ==1 && $two ==1 && $three ==1 && $four ==1 && $five ==1 && $six ==1 && $seven==1 && $eight ==1 && $nine ==1 ){
    $sql="INSERT INTO register (ID,FirstName,	MiddleName,LastName,FamilyName,Email,Password,Mobile,DateOfBirth) 
    VALUES (NULL,:fname,:mname,:lname ,:faname ,:email ,:password , :mobile ,:dateP)";
