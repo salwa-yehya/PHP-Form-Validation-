@@ -13,13 +13,15 @@ require('config.php');
     $Datee=$_POST['dateP'];
   
 // caluclate Age 
-  $Now_Date =  Date_Create("now");
-  $input_Date= Date_Create($_POST['dateP']);
-  $Date = Date_diff($input_Date ,$Now_Date);
-  $Age = $Date->y;
+  $Now_Date =  Date_Create("now"); //now date 
+  $input_Date= Date_Create($_POST['dateP']); // input birthday day  //make it array
+
+  $Date = Date_diff($input_Date ,$Now_Date);  //differnce between now data and birthday day  //Object
+  //  print_r('$Date ')
+  $Age = $Date->y; //user age in years //arrow ? becuse it form object
 
 
-// to join all if conditions togather
+// to join all if conditions togather  "flags"
   $one =0;
   $two =0;
   $three =0;
@@ -139,7 +141,7 @@ if ($one ==1 && $two ==1 && $three ==1 && $four ==1 && $five ==1 && $six ==1 && 
    $sql="INSERT INTO register (ID,FirstName,	MiddleName,LastName,FamilyName,Email,Password,Mobile,DateOfBirth) 
    VALUES (NULL,:fname,:mname,:lname ,:faname ,:email ,:password , :mobile ,:dateP)";
    $statement =  $con->prepare($sql);
- //binding : bind Varible with query
+ //binding : bind Varible with query   اربط المتغير مع القيمة
    $statement->bindValue('fname' ,$FirstName);
    $statement->bindValue('mname' , $MiddleName);
    $statement->bindValue('lname' , $LastName);
@@ -150,7 +152,7 @@ if ($one ==1 && $two ==1 && $three ==1 && $four ==1 && $five ==1 && $six ==1 && 
    $statement->bindValue('dateP' , $Datee);
    
 
-   $statement-> execute();   
+   $statement-> execute();     //نفذ
    header("location:login.php");
    exit;
    echo "success";

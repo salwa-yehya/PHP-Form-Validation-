@@ -1,39 +1,52 @@
 <?php
-require('config.php')
 session_start();
+require('config.php');
 
-if(isset($_POST['submit'])){
+if(isset($_POST['Submit'])){
+
+
+  $_SESSION['validate']=false;
   $Email=$_POST['email'];
   $Password=$_POST['password'];
+  $error="";
+  $sql="SELECT * FROM register WHERE  Email =:email  and Password =:password ";
 
-
-  $sql="SELECT* INTO register WHERE  Email =:email  and Password =:password ";
    $statement =  $con->prepare($sql); //سرعه بالقراءه و سكيور , بدون تنفيذ
  //binding : bind Varible with query
-   $statement->bindValue('email' , $Email);
-   $statement->bindValue('password' ,$Password);
+   $statement->bindValue(':email' , $Email);
+   $statement->bindValue(':password' ,$Password);
    $statement-> execute();    //بتنفذ كود 
    
-   $Salwa =  $statement-> fetch(PDO::FETCH_ASSOS);
+   $S =  $statement->fetch(PDO::FETCH_ASSOC);    //بجيب الداتا  // fetch as array
+  
+  if(!empty($_POST['email']) && !empty($_POST['password']) && ($_SERVER['REQUEST_METHOD'] === 'POST')){
+    
+        if($S){
+        $_SESSION['id']=$S["ID"];
+        $_SESSION['username']=$S["FirstName"];
+        $_SESSION['email']=$S["Email"];
+        $_SESSION['password']=$S["Password"];
+        $_SESSION['role']=$S["Role"];
+        
+        $_SESSION['validate']=true;
+        // echo 'Login Successfully';
+        header('location:user.php');
 
-  if(!empty($_POST['email']) && !empty ($_POST['password'])){
+        //add date last log in use now() function
+        // $statement="UPDATE  users SET  last_login =now() WHERE id=". $_SESSION['ID'];
+        // $statement =  $con->prepare($sql);
+        // $statement->execute();
+          }
 
+        else{
+           $error= "Make sure that you are registere!";
+          }
+      
+        }
+  else{
+    $error ="error";
   }
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
 
  ?>
 <!DOCTYPE html>
@@ -54,15 +67,20 @@ if(isset($_POST['submit'])){
 <form action="" method="POST">
   <div class="mb-3 ">
     <label class="form-label">Email</label>
-    <input type="email" class="form-control" name="email">
-    <div >abc@gmail.com</div>
+    <input type="text" class="form-control" name="email">
+    <div>abc@gmail.com</div>
   </div>
   <div class="mb-3">
     <label  class="form-label">Password</label>
     <input type="password" class="form-control" name="password" >
-  </div>
-  <button type="button" class="btn btn-primary col-3 mx-auto icon">Login</button>
-  <input  type="Submit" name="Submit" value="Login" >
+    </div>
+    <?php 
+    if( !empty ($error) ){
+        echo "<p>$error</p>";
+    }
+    ?>
+  <input class="btn btn-primary col-3 mx-auto icon"  type="Submit" name="Submit" value="Login" >
+
   <br>
   <p class="wel">Don't have an account ?<a href="SignUp.php">Sign Up</a> </p>
 </form>
