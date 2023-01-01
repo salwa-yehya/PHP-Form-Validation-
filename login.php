@@ -3,8 +3,6 @@ session_start();
 require('config.php');
 
 if(isset($_POST['Submit'])){
-
-
   $_SESSION['validate']=false;
   $Email=$_POST['email'];
   $Password=$_POST['password'];
